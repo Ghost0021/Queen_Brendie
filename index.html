@@ -16,9 +16,8 @@
       margin: 0;
     }
 
-    h1, h2 {
+    h1 {
       color: #00ffc8;
-      text-align: center;
     }
 
     textarea {
@@ -48,7 +47,7 @@
 
     #messages {
       margin-top: 30px;
-      max-width: 500px;
+      max-width: 500px
       width: 100%;
     }
 
@@ -56,18 +55,48 @@
       background: #1f1f1f;
       padding: 12px;
       border-radius: 6px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Anonymous Message Drop</h1>
+  <textarea id="message" placeholder="Type your message here..."></textarea>
+  <button onclick="sendMessage()">Send</button>
+
+  <div id="messages"></div>
+
+  <script>
+    function sendMessage() {
+      const msg = document.getElementById('message').value.trim();
+      if (!msg) return;
+
+      let stored = JSON.parse(localStorage.getItem('anonMessages') || "[]");
+      stored.push(msg);
+      localStorage.setItem('anonMessages', JSON.stringify(stored));
+
+      document.getElementById('message').value = "";
+      showMessages();
+    }
+
+    function showMessages() {
+      const container = document.getElementById('messages');
+      let stored = JSON.parse(localStorage.getItem('anonMessages') || "[]");
+      container.innerHTML = "";
+
       if (stored.length === 0) {
-          container.innerHTML = "<p>No messages yet.</p>";
-        } else {
-          stored.reverse().forEach(msg => {
-            const div = document.createElement('div');
-            div.className = 'message';
-            div.textContent = msg;
-            container.appendChild(div);
-          });
-        }
+        container.innerHTML = "<p>No messages yet.</p>";
+      } else {
+        stored.reverse().forEach(msg => {
+          const div = document.createElement('div');
+          div.className = 'message';
+          div.textContent = msg;
+          container.appendChild(div);
+        });
       }
     }
+    showMessages();
   </script>
 </body>
 </html>
+    an
